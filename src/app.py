@@ -67,15 +67,22 @@ st.markdown("""
         border: 2px solid #d62728;
         margin: 1rem 0;
     }
+    .recommendations-box {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        border-left: 4px solid #28a745;
+        margin: 1rem 0;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-@st.cache_data
+@st.cache_data  # Magic decorator. It caches the data so it doesn't reload on every interaction, making the app fast.
 def load_data():
     """Load the original dataset"""
     return pd.read_csv('digital_habits_vs_mental_health.csv')
 
-@st.cache_resource
+@st.cache_resource  # Similar cache, but for the heavy models.
 def load_models():
     """Load trained models and preprocessing components"""
     models = {}
@@ -365,6 +372,7 @@ def show_predictions_page(models):
         st.markdown('</div>', unsafe_allow_html=True)
         
         # Recommendations
+        st.markdown('<div class="recommendations-box">', unsafe_allow_html=True)
         st.markdown("## 💡 Personalized Recommendations")
         
         recommendations = []
@@ -392,6 +400,8 @@ def show_predictions_page(models):
                 st.write(f"• {rec}")
         else:
             st.success("🎉 Great job! Your digital habits are well-balanced.")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
 
 def show_analysis_page(data, models):
     """Display the analysis page"""
